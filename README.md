@@ -16,6 +16,18 @@ Optional<Boolean> optionalBooleanValue = propertyConfiguration.getValue(booleanO
 StringListProperty stringList = new StringListProperty("string.list", Collections.emptyList());
 List<String> myList = propertyConfiguration.getValue(stringList);
 ```
+## Basic Usage with Spring
+
+```java
+@Autowired
+public Application(ConfigurableEnvironment environment) {
+    List<PropertySource> sources = new ArrayList<>(SpringConfigurationPropertySource.fromConfigurableEnvironment(environment, true));
+    PropertyConfiguration config = new PropertyConfiguration(sources);
+    
+    BooleanProperty booleanDefaulted = new BooleanProperty("boolean.with.default", true);
+    Boolean booleanValue = propertyConfiguration.getValue(booleanDefaulted);
+}
+```
 
 ## Property Sources
 
@@ -28,11 +40,6 @@ MapPropertySource mapPropertySource = new MapPropertySource("in-memory", example
 JavaPropertiesPropertySource javaPropertiesPropertySource = new JavaPropertiesPropertySource("system", System.getProperties());
 PropertyConfiguration propertyConfiguration = new PropertyConfiguration(mapPropertySource, javaPropertiesPropertySource);
 
-@Autowired
-public Application(ConfigurableEnvironment environment) {
-    List<PropertySource> sources = new ArrayList<>(SpringConfigurationPropertySource.fromConfigurableEnvironment(environment, true));
-    PropertyConfiguration config = new PropertyConfiguration(sources);
-}
 ```
 
 ## Help and logging
