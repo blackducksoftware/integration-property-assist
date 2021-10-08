@@ -4,7 +4,7 @@ Provide a type safe and consistent way to access string based property collectio
 
 ## Basic Usage
 
-```
+```java
 PropertyConfiguration propertyConfiguration = PropertyConfiguration.fromSystem();
 
 BooleanProperty booleanDefaulted = new BooleanProperty("boolean.with.default", true);
@@ -21,7 +21,7 @@ List<String> myList = propertyConfiguration.getValue(stringList);
 
 Property sources can be created from several different property providers such as a Map, Java Properties object or Spring Configuration (using the Spring adapter). Property sources have names so the origin and source of properties can be tracked and logged. 
 
-```
+```java
 Map<String, String> exampleMap = Map.of("property.one", "value");
 MapPropertySource mapPropertySource = new MapPropertySource("in-memory", exampleMap);
 
@@ -38,7 +38,7 @@ public Application(ConfigurableEnvironment environment) {
 ## Help and logging
 
 Each out of the box property provides information useful for logging user help. 
-```
+```java
 EnumListProperty<Example> enumList = new EnumListProperty<Example>("example.enum.list", Collections.singletonList(Example.Two), Example.class);
 System.out.println("Property Key: " + enumList.getKey()); //                                                Property Key: example.enum.list
 System.out.println("Type: " + enumList.describeType()); //                                                  Type: Example List
@@ -57,7 +57,7 @@ The library supports several advanced enum types to handle specific property use
 
 A soft enum lets the user specify an enum value OR any value. The benefit being help, example values and known enum types can be handled gracefully. This is particularly useful for 'enums' where you only know a subset of values and it is passed through to an external system.
 
-```
+```java
 SoftEnumProperty<Example> property = new SoftEnumProperty<>("soft.enum", SoftEnumValue.ofEnumValue(Example.ANOTHER), Example.class);
 
 SoftEnumValue<Example> softEnumValue = config.getValue(property);
@@ -72,7 +72,7 @@ if (softEnumValue.getEnumValue().isPresent()) {
 
 An extended enum lets the user specify one of two enums. This is useful if you are using an enum from another library but want to add your own additional values to it. 
 
-```
+```java
 final ExtendedEnumProperty<ExtensionEnum, BaseEnum> property = new ExtendedEnumProperty<>("enum.nullable", ExtendedEnumValue.ofExtendedValue(ExtensionEnum.EXTENDED_VALUE), ExtensionEnum.class, BaseEnum.class);
 
 ExtendedEnumValue<ExtensionEnum, BaseEnum> value = config.getValue(property);
@@ -87,7 +87,7 @@ if (value.getExtendedValue().isPresent()) {
 
 A filterable enum is an enum that also supports ALL or NONE. It is similar to Extended Enum but provides additional utilities for converting the provided values into actual enum values. 
 
-```
+```java
 final FilterableEnumListProperty<Example> property = new FilterableEnumListProperty<>("enum.list", Collections.emptyList(), Example.class);
 
 final List<FilterableEnumValue<Example>> value = config.getValue(property);
@@ -102,7 +102,7 @@ if (values.contains(Example.THING)) {
 
 Sometimes it is convenient to get all properties that start with a prefix, for example if you are passing through a set of values to an external system. A passthrough property provides a mechanism to get all keys with a prefix. 
 
-```
+```java
 // Config = { example.passthrough.key1 = value1 } 
 PassthroughProperty property = new PassthroughProperty("example.passthrough");
 Map<String, String> passthroughMap = propertyConfiguration.getRaw(property);
@@ -115,7 +115,7 @@ When a property cannot be properly coerced to it's type an InvalidPropertyExcept
 
 Some applicaitions may preer to throw these exceptions during a startup phase. To do this, you must query the property configuration for parse exceptions using a collection of all known properties.
 
-```
+```java
 for (TypedProperty property : knownTypedProperties) {
     Optional<ValueParseException> exception = propertyConfiguration.getPropertyException(property);
     if (exception.isPresent()) {
@@ -126,7 +126,7 @@ for (TypedProperty property : knownTypedProperties) {
 
 If you would prefer to never throw parse exceptions, there are methods that do not throw that can be used to get property values but you must specify what they return in the case of an exception (either a default or empty).
 
-```
+```java
 PropertyConfiguration config = configOf( "example.key", "some value which cannot be converted to a boolean")
 BooleanProperty property = new BooleanProperty("example.key", true);
 
@@ -134,7 +134,7 @@ config.getValue(property); // throws InvalidPropertyException
 config.getValueOrDefault(property) // returns the properties default
 ```
 
-```
+```java
 PropertyConfiguration config = configOf( "example.key", "some value which cannot be converted to a boolean")
 NullableBooleanProperty property = new NullableBooleanProperty("example.key");
 
@@ -146,7 +146,7 @@ config.getValueOrEmpty(property) // returns Optional.empty()
 
 It is sometimes convenient to display to the user where a property came from. The property configuration can tell you where a property was sourced and the origin of the property. 
 
-```
+```java
 Map<String, String> firstMap = Map.of("property.first", "value");
 MapPropertySource firstSource = new MapPropertySource("first-source", firstMap);
 
@@ -166,7 +166,7 @@ propertyConfiguration.getPropertySource(propertySecond); // second-source
 
 Sometimes getting a default value is not sufficient, you need to know if the property was actually provided by the user - for example to decide whether or not you should warn that a property is deprecated. 
 
-```
+```java
 BooleanProperty deprecatedButHasDefault = new BooleanProperty("property.key", true);
 
 config.getValue(deprecatedButHasDefault); // we don't know if this value was provided because the property was set or if it was a default
