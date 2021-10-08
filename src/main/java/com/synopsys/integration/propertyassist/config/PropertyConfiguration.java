@@ -7,6 +7,7 @@
  */
 package com.synopsys.integration.propertyassist.config;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ import com.synopsys.integration.propertyassist.property.base.NullableProperty;
 import com.synopsys.integration.propertyassist.property.base.PassthroughProperty;
 import com.synopsys.integration.propertyassist.property.base.TypedProperty;
 import com.synopsys.integration.propertyassist.property.base.ValuedProperty;
+import com.synopsys.integration.propertyassist.source.JavaPropertiesPropertySource;
 import com.synopsys.integration.propertyassist.source.PropertySource;
 
 public class PropertyConfiguration {
@@ -43,6 +45,14 @@ public class PropertyConfiguration {
 
     public PropertyConfiguration(@NotNull final List<PropertySource> orderedPropertySources) {
         this.orderedPropertySources = orderedPropertySources;
+    }
+
+    public PropertyConfiguration(@NotNull final PropertySource... orderedPropertySources) {
+        this(Arrays.asList(orderedPropertySources));
+    }
+
+    public static PropertyConfiguration fromSystem() {
+        return new PropertyConfiguration(new JavaPropertiesPropertySource("system", System.getProperties()));
     }
 
     //region
