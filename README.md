@@ -1,6 +1,6 @@
 # Goal
 
-Consistently parsing and converting string properties into types can be a challenge. This library provides a type safe and consistent way to access string based property collections such as Java Properties or Spring Configurations. The goal is to keep this library lightweight and extendable while providing common use cases out of the box. 
+Provide a type safe and consistent way to access string based property collections such as Java Properties or Spring Configurations. Keep it lightweight and extendable while providing common use cases out of the box. 
 
 ## Basic Usage
 
