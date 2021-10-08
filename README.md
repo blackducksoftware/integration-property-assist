@@ -1,6 +1,8 @@
 # Goal
 
-Provide a type safe and consistent way to access string based property collections such as Java Properties or Spring Configurations. Keep it lightweight and extendable while providing common use cases out of the box. 
+Provide a lightweight type safe and consistent way to access string based property collections using strongly typed properties objects. 
+
+This library treats Properties as a first class concept. A property is defined up front in a Property class with keys, parsers, nullability and defaults all defined up front and explicitely. When you go to access the property you know exactly what you will get. You control how each property is converted and what to do if the conversion fails.  This allows you to decide if you want to handle parse exceptions or exit on parse exceptions. It allows you easily know if a key was actually provided or just populated with a default and it easily allows you to find out where the key originated.
 
 ## Basic Usage
 
