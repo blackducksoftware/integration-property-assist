@@ -18,5 +18,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.11'
     implementation 'org.jetbrains:annotations:20.1.0'
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testImplementation "org.springframework:spring-test:5.3.6"
+    testImplementation "org.apache.commons:commons-collections4:4.2"
 }
